@@ -1,0 +1,16 @@
+{
+  "name": "popfever-mailer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/andreyborisenko/popfever-mailer.git",
+  "author": "Andrey Borisenko",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "gmail-send": "^1.2.14"
+  },
+  "scripts": {
+    "start": "node index"
+  }
+}
