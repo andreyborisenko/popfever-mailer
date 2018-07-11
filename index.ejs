@@ -209,14 +209,12 @@
 								<td width="100">&nbsp;</td>
 								<td width="400" align="center">
 									<div class="contentEditableContainer contentTextEditable">
-										<table class="mail-contnent">
-											<% for (let key in data) { %>
-												<% if (key == 'mail_to') continue; %>
-												<ul>
-													<li><b><%= key[0].toUpperCase() + key.slice(1) %>:</b> <%= data[key] %></li>
-												</ul> 
-											<% } %>
-										</table>
+										<% for (let key in data) { %>
+											<% if (key == 'mail_to') continue; %>
+											<ul>
+												<li><b><%= key[0].toUpperCase() + key.slice(1) %>:</b> <%= data[key] %></li>
+											</ul> 
+										<% } %>
 					              	</div>
 								</td>
 								<td width="100">&nbsp;</td>
