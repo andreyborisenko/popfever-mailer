@@ -1,5 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const ejs = require('ejs')
+const path = require('path')
 const nodemailer = require('nodemailer');
 
 const credentials = {
@@ -15,10 +17,8 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-// var send = require('gmail-send')({
-//     user: 'popfever.contact@gmail.com',
-//     pass: 'popfever123'
-// })
+
+const requiredFields = ['email', 'mail_to', 'name', 'username', 'role']
 
 const app = express()
 
@@ -39,30 +39,41 @@ app.get('/', (req, res) => {
 app.post('/send', bodyParser.json({ type: 'application/*+json' }), (req, res) => {
     console.log(req.body)
 
-    if (!Object.keys(req.body).length || !req.body.mail_to) return res.end('failed')
 
-    const mailOptions = {
-        from: credentials.user, // sender address
-        to: req.body.mail_to, // list of receivers
-        subject: req.body.subject || 'Influencer', // Subject line
-        html: req.body.message || 'No message' // plain text body
-    };
+    if (!Object.keys(req.body).length) return res.end('failed')
 
-    transporter.sendMail(mailOptions, (err, info) => {
-        if(err)
-          console.log(err)
-        else
-          console.log(info);
-     });
+    for (let r of requiredFields) {
+        if (!(r in req.body) || req.body[r].length == 0) return res.end('failed')
+    }
 
-    // send({
-    //     to: req.body.mail_to,
-    //     subject: req.body.subject || 'Influencer',
-    //     html: req.body.message || 'No message'
-    // })
+    ejs.renderFile(path.join(__dirname, 'index.ejs'), {data: req.body}, (err, str) => {
 
-    res.writeHead(200)
-    res.end('good')
+        if (err) {
+            console.error(err)
+            res.writeHead(500, 'Something went wrong!')
+            return res.end('failed')
+        }
+
+        const mailOptions = {
+            to: req.body.mail_to, // list of receivers
+            from: req.body.email || credentials.user, // sender address
+            subject: req.body.subject || 'Influencer', // Subject line
+            html: str || 'No message' // plain text body
+        };
+    
+        transporter.sendMail(mailOptions, (err, info) => {
+            if(err) {
+                res.end('failed')
+                console.log(err)
+            } else {
+                console.log(info)
+            }
+        });
+
+         
+        res.writeHead(200)
+        res.end('good')
+    })
 })
 
 const port = process.env.PORT || 5555
