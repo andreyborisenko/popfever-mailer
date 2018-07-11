@@ -209,12 +209,12 @@
 								<td width="100">&nbsp;</td>
 								<td width="400" align="center">
 									<div class="contentEditableContainer contentTextEditable">
-										<% for (let key in data) { %>
-											<% if (key == 'mail_to') continue; %>
-											<ul>
+										<ul style="list-style-type: none">
+											<% for (let key in data) { %>
+												<% if (key == 'mail_to') continue; %>
 												<li><b><%= key[0].toUpperCase() + key.slice(1) %>:</b> <%= data[key] %></li>
-											</ul> 
-										<% } %>
+											<% } %>
+										</ul> 
 					              	</div>
 								</td>
 								<td width="100">&nbsp;</td>
