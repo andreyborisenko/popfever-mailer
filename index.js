@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
 });
 
 
-const requiredFields = ['email', 'mail_to', 'name', 'username', 'role']
+const requiredFields = ['from', 'mail_to', 'name', 'username', 'role']
 
 const app = express()
 
@@ -63,8 +63,8 @@ app.post('/send', bodyParser.json({ type: 'application/*+json' }), (req, res) =>
     
         transporter.sendMail(mailOptions, (err, info) => {
             if(err) {
-                res.end('failed')
                 console.log(err)
+                res.end('failed')
             } else {
                 console.log(info)
             }
