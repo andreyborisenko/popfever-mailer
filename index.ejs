@@ -212,10 +212,9 @@
 										<table class="mail-contnent">
 											<% for (let key in data) { %>
 												<% if (key == 'mail_to') continue; %>
-												<tr>
-													<td><%= key[0].toUpperCase() + key.slice(1) %></td>
-													<td><%= data[key] %></td>
-												</tr> 
+												<ul>
+													<li><b><%= key[0].toUpperCase() + key.slice(1) %>:</b> <%= data[key] %></li>
+												</ul> 
 											<% } %>
 										</table>
 					              	</div>
