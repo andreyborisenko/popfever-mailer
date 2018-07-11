@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const ejs = require('ejs')
 const path = require('path')
+const querystring = require('querystring')
 const nodemailer = require('nodemailer');
 
 const credentials = {
@@ -18,7 +19,7 @@ var transporter = nodemailer.createTransport({
 });
 
 
-const requiredFields = ['from', 'mail_to', 'name', 'username', 'role']
+const requiredFields = ['email', 'mail_to', 'name', 'username', 'role']
 
 const app = express()
 
@@ -39,14 +40,13 @@ app.get('/', (req, res) => {
 app.post('/send', bodyParser.json({ type: 'application/*+json' }), (req, res) => {
     console.log(req.body)
 
-
-    if (!Object.keys(req.body).length) return res.end('failed')
+    if (!Object.keys(req.body).length) return res.end('querystring wasn`t passed')
 
     for (let r of requiredFields) {
-        if (!(r in req.body) || req.body[r].length == 0) return res.end('failed')
+        if (!(r in req.body) || req.body[r].length == 0) return res.end(`missing ${r} parameter`)
     }
 
-    ejs.renderFile(path.join(__dirname, 'index.ejs'), {data: req.body}, (err, str) => {
+    ejs.renderFile(path.join(__dirname, 'index.ejs'), { data: req.body }, (err, str) => {
 
         if (err) {
             console.error(err)
