@@ -211,7 +211,7 @@
 									<div class="contentEditableContainer contentTextEditable">
 										<ul style="list-style-type: none">
 											<% for (let key in data) { %>
-												<% if (key == 'mail_to') continue; %>
+												<% if (key == 'mail_to' || !data[key]) continue; %>
 												<li><b><%= key[0].toUpperCase() + key.slice(1) %>:</b> <%= data[key] %></li>
 											<% } %>
 										</ul> 
